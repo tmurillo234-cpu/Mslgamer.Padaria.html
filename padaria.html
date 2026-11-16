@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Padaria Trigo & Azulejo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;600&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#fffdf8; --surface:#f3efe4; --ink:#1c2a3a; --muted:#5b6672;
+  --blue:#1d4e89; --blue-ink:#ffffff; --butter:#f4d35e; --crust:#8a4f1d; --line:#d9d2bf;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101a26; --surface:#18273a; --ink:#f3eee2; --muted:#a8b2be;
+    --blue:#7fb0e8; --blue-ink:#0e1a28; --butter:#f4d35e; --crust:#e0a468; --line:#2c4058;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101a26; --surface:#18273a; --ink:#f3eee2; --muted:#a8b2be;
+  --blue:#7fb0e8; --blue-ink:#0e1a28; --butter:#f4d35e; --crust:#e0a468; --line:#2c4058;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Georgia,serif;line-height:1.05;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--bg);padding:.6rem 1rem;z-index:20}
+.skip:focus{left:1rem;top:1rem}
+
+header.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+.logo{font:800 1.25rem "Bricolage Grotesque",serif}
+nav a{color:var(--ink);text-decoration:none;margin-left:1.25rem;font-weight:600}
+nav a:hover{color:var(--blue)}
+
+.hero{padding:3rem 0 3.5rem;border-bottom:2px solid var(--ink)}
+.hero h1{font-size:clamp(2.6rem,9vw,6rem);font-weight:800;letter-spacing:-.03em;max-width:12ch}
+.hero p.lead{max-width:34rem;color:var(--muted);margin:1.25rem 0 1.75rem;font-size:1.15rem}
+.oven{display:inline-flex;align-items:center;gap:.75rem;background:var(--butter);color:#2b2208;padding:.7rem 1.1rem;border-radius:999px;font-weight:600}
+.dot{width:.7rem;height:.7rem;border-radius:50%;background:#c2410c;flex:none}
+.oven.hot .dot{animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.25;transform:scale(1.5)}}
+.hours{margin-top:1rem;color:var(--muted);font-size:.95rem}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:.5rem;overflow-x:auto;padding:.9rem 0;border-bottom:1px solid var(--line)}
+.tabs button{flex:none;font:600 1rem Figtree,sans-serif;color:var(--ink);background:transparent;border:2px solid var(--line);padding:.45rem 1rem;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--blue-ink)}
+
+.cat{padding:2.5rem 0 .5rem}
+.cat h2{font-size:clamp(1.8rem,5vw,2.6rem);color:var(--crust);margin-bottom:.25rem}
+.cat .sub{color:var(--muted);margin:0 0 1.25rem}
+.list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 3rem}
+.item{display:grid;grid-template-columns:2.6rem 1fr auto auto;gap:.2rem .8rem;align-items:center;padding:.9rem 0;border-bottom:1px dotted var(--line)}
+.ico{width:2.6rem;height:2.6rem;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-size:1.4rem}
+.item h3{font-size:1.1rem;font-weight:500}
+.item small{display:block;color:var(--muted);font-size:.88rem;line-height:1.35}
+.price{font:800 1.05rem "Bricolage Grotesque",sans-serif;white-space:nowrap}
+.add{width:2.4rem;height:2.4rem;border-radius:50%;border:2px solid var(--blue);background:transparent;color:var(--blue);font-size:1.3rem;line-height:1;cursor:pointer}
+.add:hover,.add:active{background:var(--blue);color:var(--blue-ink)}
+
+#pedido{margin:3.5rem 0 7rem;background:var(--surface);border-radius:1rem;padding:1.75rem}
+#pedido h2{font-size:2rem;margin-bottom:1rem}
+#linhas{list-style:none;margin:0;padding:0}
+#linhas li{display:flex;align-items:center;gap:.75rem;padding:.55rem 0;border-bottom:1px dotted var(--line)}
+#linhas .nome{flex:1}
+.qty button{width:1.9rem;height:1.9rem;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font-size:1.1rem}
+.qty span{display:inline-block;min-width:1.6rem;text-align:center;font-weight:600}
+.total{display:flex;justify-content:space-between;font:800 1.5rem "Bricolage Grotesque",sans-serif;margin:1.25rem 0}
+.empty{color:var(--muted)}
+.cta{font:600 1.05rem Figtree,sans-serif;background:var(--blue);color:var(--blue-ink);border:0;border-radius:999px;padding:.8rem 1.6rem;cursor:pointer}
+.cta[disabled]{opacity:.4;cursor:not-allowed}
+.ok{margin-top:1rem;font-weight:600;color:var(--crust)}
+
+.fab{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);text-decoration:none;padding:.8rem 1.2rem;border-radius:999px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+footer{border-top:2px solid var(--ink);padding:2rem 0 5rem;color:var(--muted);font-size:.95rem}
+
+@media (max-width:760px){
+  .list{grid-template-columns:1fr}
+  nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){.oven.hot .dot{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">Trigo &amp; Azulejo</div>
+    <nav aria-label="Principal"><a href="#cardapio">Cardápio</a><a href="#pedido">Meu pedido</a><a href="#contato">Contato</a></nav>
+  </header>
+
+  <main id="conteudo">
+  <section class="hero">
+    <h1>Pão quente, três vezes ao dia.</h1>
+    <p class="lead">Padaria de bairro com forno a lenha, massa de fermentação lenta e pão de queijo que acaba antes do almoço.</p>
+    <div id="forno" class="oven"><span class="dot"></span><span id="forno-txt">Calculando a próxima fornada…</span></div>
+    <p class="hours">Fornadas às 6h, 11h e 16h. Aberto todos os dias, das 6h às 20h.</p>
+  </section>
+
+  <div class="tabs" id="tabs" role="group" aria-label="Filtrar cardápio"></div>
+  <div id="cardapio"></div>
+
+  <section id="pedido" aria-live="polite">
+    <h2>Meu pedido</h2>
+    <ul id="linhas"></ul>
+    <div class="total"><span>Total</span><span id="total">R$ 0,00</span></div>
+    <button class="cta" id="finalizar" disabled>Finalizar pedido</button>
+    <p class="ok" id="ok" hidden></p>
+  </section>
+  </main>
+
+  <footer id="contato">
+    Rua das Palmeiras, 128 – Vila Madalena, São Paulo · (11) 3000-0000<br>
+    Pedidos para retirada no balcão. Preços sujeitos a alteração.
+  </footer>
+</div>
+<a class="fab" href="#pedido" id="fab" aria-label="Ver pedido">Pedido: 0 itens</a>
+
+<script>
+const CATS = [
+  {id:"paes", nome:"Pães", sub:"Assados todos os dias, com massa de 24 horas."},
+  {id:"queijo", nome:"Pão de queijo", sub:"Polvilho azedo e queijo meia cura de Minas."},
+  {id:"doces", nome:"Doces", sub:"Feitos na casa, do brigadeiro à torta."},
+  {id:"bebidas", nome:"Bebidas", sub:"Para acompanhar o pão."}
+];
+const ITEMS = [
+  {id:1,c:"paes",e:"🥖",n:"Pão francês",d:"Casca crocante, miolo macio. Preço por unidade.",p:0.90},
+  {id:2,c:"paes",e:"🥖",n:"Baguete",d:"Longa, dourada e de fermentação lenta.",p:8.00},
+  {id:3,c:"paes",e:"🍞",n:"Pão de forma integral",d:"Fatiado, 500 g, com grãos e sementes.",p:12.50},
+  {id:4,c:"paes",e:"🍞",n:"Pão italiano com ervas",d:"Alecrim, orégano e azeite.",p:14.00},
+  {id:5,c:"paes",e:"🥖",n:"Ciabatta",d:"Alveolada, ótima para sanduíche.",p:9.50},
+  {id:6,c:"paes",e:"🍞",n:"Pão de centeio",d:"Massa escura, sabor intenso. 450 g.",p:15.00},
+  {id:7,c:"queijo",e:"🧀",n:"Pão de queijo tradicional",d:"Saindo do forno, por unidade.",p:3.50},
+  {id:8,c:"queijo",e:"🧀",n:"Pão de queijo com requeijão",d:"Recheio cremoso, por unidade.",p:5.50},
+  {id:9,c:"queijo",e:"🧀",n:"Porção com 10 unidades",d:"Tradicionais, para levar para casa.",p:28.00},
+  {id:10,c:"doces",e:"🍫",n:"Brigadeiro gourmet",d:"Chocolate 50%, granulado belga.",p:4.00},
+  {id:11,c:"doces",e:"🍯",n:"Pão de mel",d:"Recheado com doce de leite, cobertura de chocolate.",p:7.50},
+  {id:12,c:"doces",e:"🍩",n:"Sonho de creme",d:"Frito na hora, com creme de baunilha.",p:6.50},
+  {id:13,c:"doces",e:"🥕",n:"Bolo de cenoura (fatia)",d:"Com cobertura de chocolate.",p:9.00},
+  {id:14,c:"doces",e:"🍋",n:"Torta de limão (fatia)",d:"Base crocante, creme azedinho e merengue.",p:11.00},
+  {id:15,c:"doces",e:"🥥",n:"Quindim",d:"Gema, coco e açúcar. Nada mais.",p:5.50},
+  {id:16,c:"bebidas",e:"☕",n:"Café coado",d:"Grãos de Minas, 150 ml.",p:5.00},
+  {id:17,c:"bebidas",e:"🥛",n:"Café com leite",d:"Grande, 300 ml.",p:7.00},
+  {id:18,c:"bebidas",e:"🍊",n:"Suco de laranja natural",d:"Espremido na hora, 300 ml.",p:9.00},
+  {id:19,c:"bebidas",e:"🍫",n:"Chocolate quente",d:"Cremoso, com chantilly.",p:10.00},
+  {id:20,c:"bebidas",e:"🥤",n:"Guaraná",d:"Lata de 350 ml.",p:6.50},
+  {id:21,c:"bebidas",e:"💧",n:"Água mineral",d:"Sem gás, 500 ml.",p:4.00}
+];
+const brl = v => v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const $ = s => document.querySelector(s);
+let filtro = "todos";
+const cart = {};
+
+function renderTabs(){
+  const opts = [{id:"todos",nome:"Tudo"}, ...CATS];
+  $("#tabs").innerHTML = opts.map(o =>
+    `<button data-c="${o.id}" aria-pressed="${o.id===filtro}">${o.nome}</button>`).join("");
+}
+function renderMenu(){
+  $("#cardapio").innerHTML = CATS.filter(c => filtro==="todos" || c.id===filtro).map(c => `
+    <section class="cat">
+      <h2>${c.nome}</h2><p class="sub">${c.sub}</p>
+      <ul class="list">${ITEMS.filter(i => i.c===c.id).map(i => `
+        <li class="item">
+          <span class="ico" aria-hidden="true">${i.e}</span>
+          <div><h3>${i.n}</h3><small>${i.d}</small></div>
+          <span class="price">${brl(i.p)}</span>
+          <button class="add" data-id="${i.id}" aria-label="Adicionar ${i.n}">+</button>
+        </li>`).join("")}
+      </ul>
+    </section>`).join("");
+}
+function renderCart(){
+  const ids = Object.keys(cart).filter(k => cart[k] > 0);
+  let total = 0, qtd = 0;
+  $("#linhas").innerHTML = ids.length ? ids.map(k => {
+    const i = ITEMS.find(x => x.id == k), n = cart[k];
+    total += i.p * n; qtd += n;
+    return `<li><span class="nome">${i.n}</span>
+      <span class="qty"><button data-m="${k}" aria-label="Remover um ${i.n}">−</button><span>${n}</span><button data-p="${k}" aria-label="Adicionar um ${i.n}">+</button></span>
+      <strong>${brl(i.p*n)}</strong></li>`;
+  }).join("") : `<li class="empty">Nenhum item ainda. Toque em + no cardápio para começar.</li>`;
+  $("#total").textContent = brl(total);
+  $("#finalizar").disabled = !ids.length;
+  $("#fab").textContent = `Pedido: ${qtd} ${qtd===1?"item":"itens"}${qtd ? " · "+brl(total) : ""}`;
+}
+function fornada(){
+  const agora = new Date(), min = agora.getHours()*60 + agora.getMinutes();
+  const horas = [6,11,16].map(h => h*60);
+  const el = $("#forno"), txt = $("#forno-txt");
+  const recente = horas.find(h => min >= h && min < h+30);
+  if (recente !== undefined){
+    el.classList.add("hot");
+    txt.textContent = "Fornada saindo agora. Venha buscar pão quente!";
+    return;
+  }
+  el.classList.remove("hot");
+  const prox = horas.find(h => h > min);
+  const alvo = prox !== undefined ? prox : horas[0] + 1440;
+  const falta = alvo - min, h = Math.floor(falta/60), m = falta % 60;
+  const quando = h ? `${h} h ${m} min` : `${m} min`;
+  txt.textContent = `Próxima fornada às ${(alvo/60)%24}h, em ${quando}.`;
+}
+
+$("#tabs").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  filtro = b.dataset.c; renderTabs(); renderMenu();
+});
+$("#cardapio").addEventListener("click", e => {
+  const b = e.target.closest(".add"); if(!b) return;
+  cart[b.dataset.id] = (cart[b.dataset.id] || 0) + 1;
+  $("#ok").hidden = true; renderCart();
+});
+$("#linhas").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  if (b.dataset.p) cart[b.dataset.p]++;
+  if (b.dataset.m) cart[b.dataset.m]--;
+  renderCart();
+});
+$("#finalizar").addEventListener("click", () => {
+  Object.keys(cart).forEach(k => delete cart[k]);
+  renderCart();
+  const ok = $("#ok");
+  ok.textContent = "Pedido enviado! Retire no balcão em até 15 minutos.";
+  ok.hidden = false;
+});
+
+renderTabs(); renderMenu(); renderCart(); fornada();
+setInterval(fornada, 30000);
+</script>
+</body>
+</html>
